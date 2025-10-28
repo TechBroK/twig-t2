@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login — TicketApp{% endblock %}
+
+{% block content %}
+  <section class="auth">
+    <div class="auth-card card">
+      <h2>Login</h2>
+      <form id="login-form" method="post">
+        <label for="username">Username</label>
+        <input id="username" name="username" required>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required>
+        <div style="margin-top:1rem"><button type="submit" class="btn primary">Login</button></div>
+      </form>
+    </div>
+  </section>
+{% endblock %}

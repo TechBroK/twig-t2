@@ -1,0 +1,18 @@
+# Render.com deployment configuration
+# Visit https://render.com and create a new "Web Service" to use this file
+
+services:
+  - type: web
+    name: ticketflow
+    env: docker
+    plan: free # or 'starter' for paid plan
+    branch: main # or your default branch name
+    healthCheckPath: /
+    envVars:
+      - key: PHP_DISPLAY_ERRORS
+        value: "Off"
+      - key: PHP_ERROR_LOG
+        value: "/var/log/php-error.log"
+    # Render auto-detects Dockerfile
+    dockerfilePath: ./Dockerfile
+    dockerContext: .

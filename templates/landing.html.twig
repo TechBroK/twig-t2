@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TicketFlow — Landing{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <h1 class="hero-title">TicketFlow</h1>
+    <p class="hero-sub">Simple, reliable ticket management to track bugs, features, and tasks — fast and friendly.</p>
+    <div class="ctas">
+      <a class="btn primary" href="/auth/signup">Get Started</a>
+      <a class="btn outline" href="/auth/login">Login</a>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="site-container">
+      <div class="grid" id="decorFeatureBoxes">
+        <article class="card">
+          <h3>🎫 Create &amp; assign tickets</h3>
+          <p>Quickly create tickets and assign work to your team.</p>
+        </article>
+        <article class="card">
+          <h3>📊 Prioritize &amp; track progress</h3>
+          <p>Sort and prioritize tasks to focus on what matters.</p>
+        </article>
+        <article class="card">
+          <h3>🤝 Collaborate with your team</h3>
+          <p>Protected routes and secure sessions keep your data safe.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" style="background:#fff;padding:4rem 0">
+    <div class="site-container" style="text-align:center">
+      <h2 style="color:var(--accent);margin-bottom:2rem">Why Choose TicketFlow?</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Fast &amp; Intuitive</h3>
+          <p>Streamlined interface for managing tickets effortlessly.</p>
+        </article>
+        <article class="card">
+          <h3>Secure Sessions</h3>
+          <p>Protected routes ensure your data and tasks stay private.</p>
+        </article>
+        <article class="card">
+          <h3>Cross-Platform</h3>
+          <p>Fully responsive across desktop, tablet, and mobile devices.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,74 @@
+{
+  "name": "adekunleadebayo210591127-hub/twig_app",
+  "description": "TicketFlow - Ticket Management System built with Twig",
+  "require": {
+    "twig/twig": "^3.0"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.10"
+  },
+  "autoload": {
+    "psr-4": { "App\\": "src/" }
+  },
+  "scripts": {
+    "pre-deploy": [
+      "@php -v",
+      "@composer validate --strict",
+      "@lint",
+      "@test-syntax",
+      "echo 'Pre-deployment checks passed!'"
+    ],
+    "deploy": [
+      "@composer install --no-dev --optimize-autoloader --no-interaction",
+      "@clear-cache",
+      "echo 'Deployment complete!'"
+    ],
+    "post-deploy": [
+      "@verify-installation",
+      "@security-check",
+      "echo 'Post-deployment verification complete!'"
+    ],
+    "lint": [
+      "@php -l src/index.php",
+      "@php -l src/bootstrap.php",
+      "@php -l src/routes.php"
+    ],
+    "test-syntax": [
+      "echo 'Running syntax checks...'",
+      "@lint"
+    ],
+    "clear-cache": [
+      "echo 'Clearing Twig cache...'",
+      "@php -r \"if(is_dir('cache')){array_map('unlink',glob('cache/*'));rmdir('cache');echo 'Cache cleared';} else {echo 'No cache to clear';}\""
+    ],
+    "verify-installation": [
+      "echo 'Verifying installation...'",
+      "@php -r \"echo file_exists('vendor/autoload.php') ? 'Composer autoload: OK' : 'ERROR: Composer autoload missing'; echo PHP_EOL;\"",
+      "@php -r \"echo class_exists('Twig\\\\Environment') ? 'Twig installed: OK' : 'ERROR: Twig not found'; echo PHP_EOL;\""
+    ],
+    "security-check": [
+      "echo 'Running security checks...'",
+      "@php -r \"echo ini_get('display_errors') ? 'WARNING: display_errors is ON' : 'display_errors: OFF (OK)'; echo PHP_EOL;\"",
+      "@php -r \"echo file_exists('.env') ? 'WARNING: .env file detected in production' : 'No .env file (OK)'; echo PHP_EOL;\""
+    ],
+    "dev-server": [
+      "@php -S localhost:9000 -t src"
+    ],
+    "production-setup": [
+      "@pre-deploy",
+      "@deploy",
+      "@post-deploy"
+    ]
+  },
+  "scripts-descriptions": {
+    "pre-deploy": "Run pre-deployment checks (validation, linting, syntax)",
+    "deploy": "Install production dependencies and optimize autoloader",
+    "post-deploy": "Verify installation and run security checks",
+    "lint": "Check PHP syntax errors in core files",
+    "clear-cache": "Clear Twig template cache",
+    "verify-installation": "Verify Composer and Twig installation",
+    "security-check": "Check security settings",
+    "dev-server": "Start local development server on port 9000",
+    "production-setup": "Run complete deployment workflow"
+  }
+}

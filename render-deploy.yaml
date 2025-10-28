@@ -1,0 +1,12 @@
+version: 2
+services:
+  - type: web
+    name: ticketflow
+    runtime: docker
+    plan: free
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PHP_DISPLAY_ERRORS
+        value: "Off"
