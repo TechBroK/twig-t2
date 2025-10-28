@@ -51,12 +51,31 @@
   /* Wire signup form */
   const signupForm = document.getElementById('signup-form');
   if(signupForm){ signupForm.addEventListener('submit', e=>{
-    e.preventDefault(); const username=(document.getElementById('su-username')||{}).value?.trim(); const password=(document.getElementById('su-password')||{}).value||'';
-    if(!username){ toast('Username is required','error'); return; } if(password.length<3){ toast('Password must be 3+ chars','error'); return; }
-    const users = getUsers(); if(users.find(u=>u.username===username) || username==='demo'){ toast('Username already exists','error'); return; }
-    users.push({ username, password }); saveUsers(users);
-    const token = 'tok_'+Math.random().toString(36).slice(2); localStorage.setItem(SESSION_KEY, JSON.stringify({ token, user: username })); setCookie(SESSION_KEY, token, 1);
-    toast('Account created','success'); setTimeout(()=> location.href='/dashboard',300);
+    e.preventDefault(); 
+    const fullname = (document.getElementById('su-fullname')||{}).value?.trim();
+    const username = (document.getElementById('su-username')||{}).value?.trim(); 
+    const password = (document.getElementById('su-password')||{}).value||'';
+    const confirmPassword = (document.getElementById('su-confirm-password')||{}).value||'';
+    
+    // Validation
+    if(!fullname){ toast('Full name is required','error'); return; }
+    if(!username){ toast('Username is required','error'); return; } 
+    if(password.length<6){ toast('Password must be at least 6 characters','error'); return; }
+    if(password !== confirmPassword){ toast('Passwords do not match','error'); return; }
+    
+    const users = getUsers(); 
+    if(users.find(u=>u.username===username) || username==='demo'){ 
+      toast('Username already exists','error'); 
+      return; 
+    }
+    
+    users.push({ fullname, username, password }); 
+    saveUsers(users);
+    const token = 'tok_'+Math.random().toString(36).slice(2); 
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ token, user: username, fullname })); 
+    setCookie(SESSION_KEY, token, 1);
+    toast('Account created successfully! Welcome '+fullname,'success'); 
+    setTimeout(()=> location.href='/dashboard',500);
   }); }
 
   /* Wire logout button */

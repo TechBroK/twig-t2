@@ -1,18 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sign Up — TicketApp{% endblock %}
+{% block title %}Sign Up — TicketFlow{% endblock %}
 
 {% block content %}
-  <section class="auth">
-    <div class="auth-card card">
-      <h2>Sign Up</h2>
-      <form id="signup-form" method="post">
-        <label for="su-username">Username</label>
-        <input id="su-username" name="username" required>
-        <label for="su-password">Password</label>
-        <input id="su-password" name="password" type="password" required>
-        <div style="margin-top:1rem"><button type="submit" class="btn primary">Create account</button></div>
-      </form>
+  <section class="auth-section">
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2>Create Account</h2>
+          <p>Join TicketFlow and start managing your tickets</p>
+        </div>
+        
+        <form id="signup-form" class="auth-form">
+          <div class="form-group">
+            <label for="su-fullname">Full Name</label>
+            <input 
+              type="text" 
+              id="su-fullname" 
+              name="fullname" 
+              class="form-input" 
+              placeholder="John Doe"
+              required>
+          </div>
+          
+          <div class="form-group">
+            <label for="su-username">Username</label>
+            <input 
+              type="text" 
+              id="su-username" 
+              name="username" 
+              class="form-input" 
+              placeholder="johndoe"
+              required>
+          </div>
+          
+          <div class="form-group">
+            <label for="su-password">Password</label>
+            <input 
+              type="password" 
+              id="su-password" 
+              name="password" 
+              class="form-input" 
+              placeholder="Enter password"
+              required>
+          </div>
+          
+          <div class="form-group">
+            <label for="su-confirm-password">Confirm Password</label>
+            <input 
+              type="password" 
+              id="su-confirm-password" 
+              name="confirm_password" 
+              class="form-input" 
+              placeholder="Re-enter password"
+              required>
+          </div>
+          
+          <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+          
+          <div class="auth-footer">
+            <p>Already have an account? <a href="/auth/login" class="auth-link">Login here</a></p>
+          </div>
+        </form>
+      </div>
     </div>
   </section>
 {% endblock %}

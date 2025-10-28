@@ -221,6 +221,137 @@ select.form-input{cursor:pointer}
 /* Small helpers */
 .auth-card{max-width:420px;margin:0 auto}
 
+/* Auth Pages Styling */
+.auth-section{
+	min-height:calc(100vh - 400px);
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	padding:3rem 1rem;
+	background:linear-gradient(135deg,#f6fbff 0%,#e0f2fe 100%)
+}
+
+.auth-container{
+	width:100%;
+	max-width:480px;
+	margin:0 auto
+}
+
+.auth-card{
+	background:#fff;
+	padding:2.5rem;
+	border-radius:16px;
+	box-shadow:0 10px 40px rgba(0,0,0,0.08);
+	border:1px solid #e5e7eb
+}
+
+.auth-header{
+	text-align:center;
+	margin-bottom:2rem
+}
+
+.auth-header h2{
+	font-size:1.875rem;
+	font-weight:700;
+	color:#0f1720;
+	margin:0 0 0.5rem 0
+}
+
+.auth-header p{
+	color:var(--muted);
+	font-size:0.95rem;
+	margin:0
+}
+
+.auth-form{
+	display:flex;
+	flex-direction:column;
+	gap:1.25rem
+}
+
+.form-group{
+	display:flex;
+	flex-direction:column;
+	gap:0.5rem
+}
+
+.form-group label{
+	font-size:0.875rem;
+	font-weight:600;
+	color:#374151;
+	margin:0
+}
+
+.btn-block{
+	width:100%;
+	margin-top:0.75rem
+}
+
+.btn-primary{
+	background:var(--accent);
+	color:#fff;
+	border:none;
+	padding:0.875rem 1.5rem;
+	border-radius:8px;
+	font-size:1rem;
+	font-weight:600;
+	cursor:pointer;
+	transition:all 0.2s ease;
+	box-shadow:0 2px 4px rgba(19,160,233,0.2)
+}
+
+.btn-primary:hover{
+	background:#0e8fd1;
+	box-shadow:0 4px 8px rgba(19,160,233,0.3);
+	transform:translateY(-1px)
+}
+
+.btn-primary:active{
+	transform:translateY(0);
+	box-shadow:0 2px 4px rgba(19,160,233,0.2)
+}
+
+.auth-footer{
+	margin-top:1.5rem;
+	padding-top:1.5rem;
+	border-top:1px solid #e5e7eb;
+	text-align:center
+}
+
+.auth-footer p{
+	color:var(--muted);
+	font-size:0.875rem;
+	margin:0
+}
+
+.auth-link{
+	color:var(--accent);
+	text-decoration:none;
+	font-weight:600;
+	transition:color 0.2s ease
+}
+
+.auth-link:hover{
+	color:#0e8fd1;
+	text-decoration:underline
+}
+
+/* Auth form error states */
+.form-input.error{
+	border-color:#ef4444
+}
+
+.form-error{
+	color:#dc2626;
+	font-size:0.8rem;
+	margin-top:0.25rem;
+	display:none
+}
+
+.form-error.visible{
+	display:block
+}
+
 /* Toast notifications */
 .toast-container{position:fixed;right:1rem;bottom:1rem;z-index:9999;display:flex;flex-direction:column;gap:0.75rem;pointer-events:none}
 .toast{background:#fff;padding:1rem 1.25rem;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-size:0.95rem;min-width:280px;max-width:400px;opacity:0;transform:translateX(100%);transition:all 0.3s cubic-bezier(0.4,0,0.2,1);pointer-events:auto}
@@ -235,4 +366,22 @@ select.form-input{cursor:pointer}
 	.hero-title{font-size:2.25rem}
 	.features .grid{grid-template-columns:1fr}
 	.site-container{padding:0 1rem}
+}
+
+@media (max-width:640px){
+	.auth-card{
+		padding:2rem 1.5rem
+	}
+	
+	.auth-header h2{
+		font-size:1.5rem
+	}
+	
+	.hero-title{
+		font-size:1.875rem
+	}
+	
+	.ticket-table{
+		font-size:0.875rem
+	}
 }
