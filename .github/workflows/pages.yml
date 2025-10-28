@@ -1,0 +1,114 @@
+# GitHub Pages Deployment (Optional)
+# Deploys static documentation to GitHub Pages
+
+name: Deploy Docs to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'DEPLOYMENT.md'
+      - 'README.md'
+      - 'TESTING.md'
+  workflow_dispatch:
+
+# Sets permissions for GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Create docs directory
+        run: |
+          mkdir -p docs
+          cp README.md docs/index.md
+          cp DEPLOYMENT.md docs/deployment.md
+          cp TESTING.md docs/testing.md 2>/dev/null || echo "TESTING.md not found, skipping"
+          
+      - name: Create HTML index
+        run: |
+          cat > docs/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>TicketFlow Documentation</title>
+              <style>
+                  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+                  h1 { color: #2563eb; }
+                  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
+                  .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; background: #f9fafb; }
+                  .card h2 { margin-top: 0; color: #1f2937; }
+                  a { color: #2563eb; text-decoration: none; }
+                  a:hover { text-decoration: underline; }
+                  .badge { display: inline-block; padding: 4px 8px; background: #dbeafe; color: #1e40af; border-radius: 4px; font-size: 12px; margin-right: 8px; }
+              </style>
+          </head>
+          <body>
+              <h1>🎫 TicketFlow Documentation</h1>
+              <p>Professional ticket management system built with PHP, Twig, and vanilla JavaScript.</p>
+              
+              <div style="margin: 20px 0;">
+                  <span class="badge">PHP 8.0+</span>
+                  <span class="badge">Twig 3.x</span>
+                  <span class="badge">Docker Ready</span>
+                  <span class="badge">GitHub Actions</span>
+              </div>
+              
+              <div class="cards">
+                  <div class="card">
+                      <h2>📖 Getting Started</h2>
+                      <p>Complete guide to setting up and running TicketFlow locally.</p>
+                      <a href="https://github.com/TechBroK/twig-t2/blob/main/README.md">View README →</a>
+                  </div>
+                  
+                  <div class="card">
+                      <h2>🚀 Deployment Guide</h2>
+                      <p>Step-by-step deployment instructions for cPanel, VPS, Docker, and Render.com.</p>
+                      <a href="https://github.com/TechBroK/twig-t2/blob/main/DEPLOYMENT.md">View Deployment Guide →</a>
+                  </div>
+                  
+                  <div class="card">
+                      <h2>🔗 GitHub Repository</h2>
+                      <p>View source code, open issues, and contribute to the project.</p>
+                      <a href="https://github.com/TechBroK/twig-t2">View on GitHub →</a>
+                  </div>
+              </div>
+              
+              <h2>Quick Links</h2>
+              <ul>
+                  <li><a href="https://github.com/TechBroK/twig-t2/releases">Download Latest Release</a></li>
+                  <li><a href="https://github.com/TechBroK/twig-t2/actions">View CI/CD Status</a></li>
+                  <li><a href="https://github.com/TechBroK/twig-t2/issues">Report Issues</a></li>
+              </ul>
+          </body>
+          </html>
+          EOF
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs'
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

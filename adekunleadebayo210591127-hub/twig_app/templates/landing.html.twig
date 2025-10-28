@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TicketApp — Landing{% endblock %}
+
+{% block content %}
+  <main class="landing">
+    <section class="hero" role="region" aria-label="Hero">
+      <div class="circle large" aria-hidden="true"></div>
+
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <h1 class="hero-title">TicketFlow</h1>
+          <p class="hero-sub">Simple, reliable ticket management to track bugs, features, and tasks — fast and friendly.</p>
+
+          <div class="hero-ctas">
+            <a class="btn primary" href="/auth/signup">Get Started</a>
+            <a class="btn ghost" href="/auth/login">Login</a>
+          </div>
+        </div>
+      </div>
+
+      <svg class="hero-wave" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="rgba(14,165,233,0.1)" d="M0,224L48,202.7C96,181,192,139,288,144C384,149,480,203,576,224C672,245,768,235,864,218.7C960,203,1056,181,1152,176C1248,171,1344,181,1392,186.7L1440,192L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+      </svg>
+    </section>
+
+    <section class="decor-cards" aria-hidden="true">
+      <div class="container">
+        <div class="feature-boxes centered" id="decorFeatureBoxes">
+          <div class="box">🎫 Create &amp; assign tickets</div>
+          <div class="box">📊 Prioritize &amp; track progress</div>
+          <div class="box">🤝 Collaborate with your team</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" aria-label="Features">
+      <div class="container">
+        <h2>Why Choose TicketFlow?</h2>
+        <div class="feature-grid">
+          <div class="card">
+            <h3>Fast &amp; Intuitive</h3>
+            <p>Streamlined interface for managing tickets effortlessly.</p>
+          </div>
+          <div class="card">
+            <h3>Secure Sessions</h3>
+            <p>Protected routes ensure your data and tasks stay private.</p>
+          </div>
+          <div class="card">
+            <h3>Cross-Platform</h3>
+            <p>Fully responsive across desktop, tablet, and mobile devices.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

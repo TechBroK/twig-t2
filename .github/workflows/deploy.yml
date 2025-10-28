@@ -1,0 +1,154 @@
+# GitHub Deployment Workflow for TicketFlow
+# This workflow runs on push to main branch and deploys to your chosen platform
+
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allows manual triggering from GitHub Actions tab
+
+jobs:
+  # Job 1: Run tests and checks
+  test:
+    name: Run Pre-Deployment Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+        extensions: mbstring, xml, zip
+        coverage: none
+    
+    - name: Validate composer.json
+      run: composer validate --strict
+    
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+    
+    - name: Check PHP syntax
+      run: |
+        php -l src/index.php
+        php -l src/bootstrap.php
+        php -l src/routes.php
+    
+    - name: Check required files exist
+      run: |
+        test -f src/index.php || exit 1
+        test -f src/bootstrap.php || exit 1
+        test -f templates/base.html.twig || exit 1
+        test -f templates/dashboard.html.twig || exit 1
+        test -f src/public/css/main.css || exit 1
+        test -f src/public/js/main.js || exit 1
+        echo "✓ All required files present"
+    
+    - name: Start test server
+      run: |
+        php -S localhost:8080 -t src > /dev/null 2>&1 &
+        sleep 2
+        curl -f http://localhost:8080 || exit 1
+        echo "✓ Test server started successfully"
+
+  # Job 2: Build Docker image (optional)
+  build-docker:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Build Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: false
+        tags: ticketflow:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+    
+    - name: Test Docker image
+      run: |
+        docker build -t ticketflow:test .
+        docker run -d -p 8080:80 --name test-container ticketflow:test
+        sleep 5
+        curl -f http://localhost:8080 || exit 1
+        docker stop test-container
+        echo "✓ Docker image works correctly"
+
+  # Job 3: Deploy to Render.com (if configured)
+  deploy-render:
+    name: Deploy to Render
+    runs-on: ubuntu-latest
+    needs: [test, build-docker]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Trigger Render Deploy
+      if: env.RENDER_DEPLOY_HOOK != ''
+      env:
+        RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+      run: |
+        if [ -n "$RENDER_DEPLOY_HOOK" ]; then
+          curl -X POST "$RENDER_DEPLOY_HOOK"
+          echo "✓ Render deployment triggered"
+        else
+          echo "ℹ️ RENDER_DEPLOY_HOOK not configured, skipping Render deployment"
+        fi
+
+  # Job 4: Create GitHub Release (on tag)
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+    
+    - name: Install production dependencies
+      run: composer install --no-dev --optimize-autoloader --no-interaction
+    
+    - name: Create deployment package
+      run: |
+        mkdir -p release
+        zip -r release/ticketflow-${{ github.ref_name }}.zip \
+          src/ \
+          templates/ \
+          vendor/ \
+          composer.json \
+          .htaccess \
+          Dockerfile \
+          docker-apache.conf \
+          DEPLOYMENT.md \
+          README.md \
+          -x "*.git*" "*.log" "*.md~"
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: release/ticketflow-${{ github.ref_name }}.zip
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

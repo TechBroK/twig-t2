@@ -1,0 +1,57 @@
+/* Main site styles — landing-focused design */
+:root{
+	--nav-bg:#081224; /* deep navy */
+	--accent:#13a0e9; /* bright blue */
+	--muted:#6b7280;
+	--page-bg:#f6fbff;
+	--card-bg:#ffffff;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--page-bg);color:#0f1720;-webkit-font-smoothing:antialiased}
+.site-container{max-width:1200px;margin:0 auto;padding:0 1.25rem}
+
+/* Header */
+.site-header{background:var(--nav-bg);color:#fff;position:sticky;top:0;z-index:40;box-shadow:0 2px 0 rgba(0,0,0,0.06)}
+.site-header .header-inner{display:flex;align-items:center;justify-content:space-between;padding:.9rem 0}
+.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;color:inherit}
+.brand .logo{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;background:linear-gradient(180deg,#0fb3f4,#0b66a6);color:#fff;font-weight:700;font-size:22px}
+.brand .brand-text{font-weight:700;font-size:1.1rem}
+.main-nav{display:flex;gap:1rem;align-items:center}
+.main-nav a{color:#dbe9f7;text-decoration:none;padding:.35rem .5rem;border-radius:6px}
+.main-nav a:hover{color:#fff}
+.main-nav a.signup{background:transparent;border:2px solid rgba(255,255,255,0.08);padding:.4rem .7rem}
+
+/* Hero */
+.hero{position:relative;padding:5.5rem 0 4rem;text-align:center;overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:-2rem;width:120%;height:260px;background:linear-gradient(180deg,rgba(19,160,233,0.12),rgba(19,160,233,0.06));border-radius:50%/40%;filter:blur(0px);z-index:0}
+.hero-title{position:relative;font-size:4rem;line-height:1;color:var(--accent);margin:0;font-weight:800}
+.hero-sub{position:relative;color:var(--muted);max-width:860px;margin:1rem auto 1.6rem;font-size:1.125rem}
+.hero .ctas{position:relative;z-index:2;display:flex;gap:1rem;justify-content:center}
+.btn{display:inline-block;padding:.9rem 1.25rem;border-radius:12px;text-decoration:none;font-weight:600}
+.btn.primary{background:var(--accent);color:#fff;box-shadow:0 8px 24px rgba(11,102,166,0.18)}
+.btn.outline{background:transparent;color:var(--accent);border:2px solid rgba(11,102,166,0.18);}
+
+/* Features section */
+.features{padding:3.5rem 0 5rem}
+.features .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.card{background:var(--card-bg);padding:2rem;border-radius:16px;box-shadow:0 30px 80px rgba(15,23,32,0.06)}
+.card h3{margin:0 0 .5rem;color:var(--accent)}
+.card p{margin:0;color:var(--muted)}
+
+/* Footer */
+footer{background:#071222;color:#cbd5e1;padding:2.25rem 0;margin-top:3rem}
+
+/* Tickets / cards */
+.ticket-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem}
+.ticket-card{padding:1rem;border-radius:12px;background:#fff}
+
+/* Small helpers */
+.auth-card{max-width:420px;margin:0 auto}
+.toast-container{position:fixed;right:1rem;bottom:1rem;z-index:9999}
+
+/* Responsive */
+@media (max-width:900px){
+	.hero-title{font-size:2.25rem}
+	.features .grid{grid-template-columns:1fr}
+	.site-container{padding:0 1rem}
+}
